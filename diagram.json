@@ -1,0 +1,38 @@
+{
+  "version": 1,
+  "author": "Proyecto Foco con Relay 2 canales ESP32",
+  "editor": "wokwi",
+  "parts": [
+    { "type": "board-esp32-devkit-c-v4", "id": "esp", "top": 0, "left": 0, "attrs": {} },
+    { "type": "wokwi-relay-module", "id": "relay1", "top": -140, "left": 260, "attrs": { "transistor": "npn" } },
+    { "type": "wokwi-relay-module", "id": "relay2", "top": 20, "left": 260, "attrs": { "transistor": "npn" } },
+    { "type": "wokwi-resistor", "id": "r1", "top": -260, "left": 260, "rotate": 90, "attrs": { "value": "220" } },
+    { "type": "wokwi-led", "id": "foco", "top": -330, "left": 300, "attrs": { "color": "yellow", "label": "Foco" } },
+    { "type": "wokwi-pushbutton", "id": "btnOn", "top": 170, "left": -160, "attrs": { "color": "green", "label": "APAGAR" } },
+    { "type": "wokwi-pushbutton", "id": "btnOff", "top": 170, "left": -60, "attrs": { "color": "red", "label": "ENCEDERs" } }
+  ],
+  "connections": [
+    ["esp:TX", "$serialMonitor:RX", "", []],
+    ["esp:RX", "$serialMonitor:TX", "", []],
+
+    ["esp:26", "relay1:IN", "green", []],
+    ["esp:5V", "relay1:VCC", "red", []],
+    ["esp:GND.1", "relay1:GND", "black", []],
+
+    ["esp:27", "relay2:IN", "green", []],
+    ["esp:5V", "relay2:VCC", "red", []],
+    ["esp:GND.2", "relay2:GND", "black", []],
+
+    ["esp:5V", "r1:1", "red", []],
+    ["r1:2", "foco:A", "yellow", []],
+    ["foco:C", "relay1:COM", "black", []],
+    ["relay1:NO", "esp:GND.3", "black", []],
+
+    ["esp:32", "btnOn:1.l", "green", []],
+    ["btnOn:2.l", "esp:GND.1", "black", []],
+
+    ["esp:33", "btnOff:1.l", "blue", []],
+    ["btnOff:2.l", "esp:GND.2", "black", []]
+  ],
+  "dependencies": {}
+}
